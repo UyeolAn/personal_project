@@ -1,9 +1,9 @@
 [staffs]
 staff_id
-student_email
+staff_email
 staff_password
 staff_name
-hire_date
+staff_hire_date
 is_master
 
 
@@ -15,7 +15,15 @@ student_name
 student_birth
 student_tel
 enter_date
-is_regist_lecture
+status
+lecture_id
+
+
+[enrollments]
+enrollment_id
+enrollment_date
+is_enrolled
+student_id
 lecture_id
 
 
@@ -23,6 +31,7 @@ lecture_id
 [teachers]
 teacher_id
 teacher_name
+teacher_email
 teacher_info
 hire_date
 lecture_id
@@ -36,3 +45,4 @@ lecture_start_date
 lecture_end_date
 num_students
 max_num_students
+is_started

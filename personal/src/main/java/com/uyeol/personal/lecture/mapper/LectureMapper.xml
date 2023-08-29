@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uyeol.personal.lecture.mapper.LectureMapper">
+
+	<select id="findAllLectures" resultType="com.uyeol.personal.lecture.vo.LectureVO">
+		SELECT *
+		FROM lectures
+	</select>
+
+	<select id="findLectureByName" parameterType="String" 
+	 resultType="com.uyeol.personal.lecture.vo.LectureVO">
+		SELECT *
+		FROM lectures
+		WHERE lecture_name = #{value}
+	</select>
+	
+	<insert id="createLecture" parameterType="com.uyeol.personal.lecture.vo.LectureVO">
+		INSERT INTO lectures (lecture_id, lecture_name, lecture_discription,
+							  start_date, end_date, max_num_students)
+		VALUES (#{lectureId}, #{lectureName}, #{lectureDescription}, 
+			    #{startDate}, #{endDate}, #{maxNumStudents})
+	</insert>
+	
+	<update id="updateLectureByName" parameterType="com.uyeol.personal.lecture.vo.LectureUpdateVO">
+		UPDATE lectures
+		<set>
+			<if test="newLectureName != null">lecture_name = #{newLectureName}</if>
+			<if test="newLectureDescription != null">lecture_discription = #{newLectureDescription}</if>
+			<if test="newStartDate != null">start_date = #{newStartDate}</if>
+			<if test="newEndDate != null">end_date = #{newEndDate}</if>
+			<if test="newMaxNumStudents != 0">max_num_students = #{newMaxNumStudents}</if>
+		</set>
+		WHERE lecture_name = #{targetName}
+	</update>
+	
+	<delete id="deleteLectureByName" parameterType="String">
+		DELETE FROM students
+		WHERE student_name = #{value}
+	</delete>
+
+</mapper>

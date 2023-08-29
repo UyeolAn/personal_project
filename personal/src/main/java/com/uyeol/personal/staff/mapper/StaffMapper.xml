@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uyeol.personal.staff.mapper.StaffMapper">
+
+	<select id="findAllStaffs" resultType="com.uyeol.personal.staff.vo.StaffVO">
+		SELECT *
+		FROM staffs
+	</select>
+
+	<select id="findStaffByName" parameterType="String" 
+	 resultType="com.uyeol.personal.staff.vo.StaffVO">
+		SELECT *
+		FROM staffs
+		WHERE staff_name = #{value}
+	</select>
+	
+	<insert id="createStaff" parameterType="com.uyeol.personal.staff.vo.StaffVO">
+		INSERT INTO staffs (staff_id, staff_email, staff_password, 
+							staff_name, staff_tel)
+		VALUES (#{staffId}, #{staffEmail}, #{staffPassword}, 
+				#{staffName}, #{staffTel})
+	</insert>
+	
+	<update id="updateStaffByName" parameterType="com.uyeol.personal.staff.vo.StaffUpdateVO">
+		UPDATE staffs
+		<set>
+			<if test="newStaffEmail != null">staff_email = #{newStaffEmail}</if>
+			<if test="newStaffPassword != null">staff_password = #{newStaffPassword}</if>
+			<if test="newStaffName != null">staff_name = #{newStaffName}</if>
+			<if test="newStaffTel != 0">staff_tel = #{newStaffTel}</if>
+		</set>
+		WHERE staff_name = #{targetName}
+	</update>
+	
+	<delete id="deleteStaffByName" parameterType="String">
+		DELETE FROM staffs
+		WHERE staff_name = #{value}
+	</delete>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uyeol.personal.teacher.mapper.TeacherMapper">
+	
+	<select id="findAllTeachers" resultType="com.uyeol.personal.teacher.vo.TeacherVO">
+		SELECT *
+		FROM teachers
+	</select>
+
+	<select id="findTeacherByName" parameterType="String" 
+	 resultType="com.uyeol.personal.teacher.vo.TeacherVO">
+		SELECT *
+		FROM teachers
+		WHERE teacher_name = #{value}
+	</select>
+	
+	<insert id="createTeacher" parameterType="com.uyeol.personal.teacher.vo.TeacherVO">
+		INSERT INTO teachers (teacher_id, teacher_name, teacher_email, teacher_info)
+		VALUES (#{teacherId}, #{teacherName}, #{teacherEmail}, #{teacherInfo})
+	</insert>
+	
+	<update id="updateTeacherByName" parameterType="com.uyeol.personal.teacher.vo.TeacherUpdateVO">
+		UPDATE teachers
+		<set>
+			<if test="newTeacherName != null">teacher_name = #{newTeacherName}</if>
+			<if test="newTeacherEmail != null">teacher_email = #{newTeacherEmail}</if>
+			<if test="newTeacherInfo != null">teacher_info = #{newTeacherInfo}</if>
+			<if test="newLectureId != 0">lecture_id = #{newLectureId}</if>
+		</set>
+		WHERE teacher_name = #{targetName}
+	</update>
+	
+	<delete id="deleteTeacherByName" parameterType="String">
+		DELETE FROM teachers
+		WHERE teacher_name = #{value}
+	</delete>
+
+</mapper>

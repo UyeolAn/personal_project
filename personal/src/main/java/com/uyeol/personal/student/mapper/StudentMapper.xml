@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uyeol.personal.student.mapper.StudentMapper">
+
+	<select id="findAllStudents" resultType="com.uyeol.personal.student.vo.StudentVO">
+		SELECT *
+		FROM students
+	</select>
+
+	<select id="findStudentByName" parameterType="String" 
+	 resultType="com.uyeol.personal.student.vo.StudentVO">
+		SELECT *
+		FROM students
+		WHERE student_name = #{value}
+	</select>
+	
+	<insert id="createStudent" parameterType="com.uyeol.personal.student.vo.StudentVO">
+		INSERT INTO students (student_id, student_email, student_password, 
+							  student_name, student_birth, student_tel)
+		VALUES (#{studentId}, #{studentEmail}, #{studentPassword}, 
+			    #{studentName}, #{studentBirth}, #{studentTel})
+	</insert>
+	
+	<update id="updateStudentByName" parameterType="com.uyeol.personal.student.vo.StudentUpdateVO">
+		UPDATE students
+		<set>
+			<if test="newStudentEmail != null">student_email = #{newStudentEmail}</if>
+			<if test="newStudentPassword != null">student_password = #{newStudentPassword}</if>
+			<if test="newStudentName != null">student_name = #{newStudentName}</if>
+			<if test="newStudentBirth != null">student_birth = #{newStudentBirth}</if>
+			<if test="newStudentTel != null">student_tel = #{newStudentTel}</if>
+			<if test="newStatus != null">status = #{newStatus}</if>
+			<if test="newLectureId != 0">lecture_id = #{newLectureId}</if>
+		</set>
+		WHERE student_name = #{targetName}
+	</update>
+	
+	<delete id="deleteStudentByName" parameterType="String">
+		DELETE FROM students
+		WHERE student_name = #{value}
+	</delete>
+	
+</mapper>

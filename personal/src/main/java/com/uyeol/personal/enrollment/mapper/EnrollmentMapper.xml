@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uyeol.personal.enrollment.mapper.EnrollmentMapper">
+
+	<select id="findAllEnrollments" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		SELECT *
+		FROM enrollments
+	</select>
+	
+	<select id="findEnrolledEnrollments" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		SELECT *
+		FROM enrollments
+		WHERE is_enrolled = 'Y'
+	</select>
+	
+	<select id="findNonEnrolledEnrollments" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		SELECT *
+		FROM enrollments
+		WHERE is_enrolled = 'N'
+	</select>
+
+	<select id="findEnrollmentByStudentId" parameterType="int" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		SELECT *
+		FROM enrollments
+		WHERE student_id = #{id}
+	</select>
+	
+	<select id="findEnrollmentByLectureId" parameterType="int" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		SELECT *
+		FROM enrollments
+		WHERE lecture_id = #{id}
+	</select>
+	
+	<insert id="createStaff" parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		INSERT INTO enrollments (enrollment_id, student_id, lecture_id)
+		VALUES (#{enrollmentId}, #{studentId}, #{lectureId})
+	</insert>
+	
+	<update id="updateStaffByName" parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		UPDATE enrollments
+		<set>
+			<if test="isEnrolled != null">is_enrolled = #{isEnrolled}</if>
+			<if test="lectureId != 0">lecture_id = #{lectureId}</if>
+		</set>
+		WHERE student_id = #{studentId}
+	</update>
+	
+	<delete id="deleteStaffByName" parameterType="int">
+		DELETE FROM enrollments
+		WHERE student_id = #{id}
+	</delete>
+
+</mapper>

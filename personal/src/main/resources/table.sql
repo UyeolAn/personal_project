@@ -9,11 +9,12 @@ CREATE TABLE students
 , student_tel VARCHAR2(20)
 , enter_date DATE DEFAULT SYSDATE
 , status VARCHAR2(20) NOT NULL
-         CHECK (status IN ('NONE', 'SCHEDULED', 'INCLASS', 'FINISH', 'FAIL'))
+         CHECK (status IN ('NONE', 'CANCEL', 'SCHEDULED', 'INCLASS', 'FINISH', 'FAIL'))
 , lecture_id NUMBER
 
 , CONSTRAINT students_student_id_pk PRIMARY KEY (student_id)
 , CONSTRAINT students_student_email_uk UNIQUE (student_email)
+, CONSTRAINT students_student_name_uk UNIQUE (student_name)
 , CONSTRAINT students_lecture_id_fk FOREIGN KEY (lecture_id)
              REFERENCES lectures(lecture_id)
 );
@@ -73,6 +74,7 @@ CREATE TABLE teachers
 
 , CONSTRAINT teachers_teacher_id_pk PRIMARY KEY (teacher_id)
 , CONSTRAINT teachers_teacher_email_uk UNIQUE (teacher_email)
+, CONSTRAINT teachers_teacher_name_uk UNIQUE (teacher_name)
 , CONSTRAINT teachers_lecture_id_fk FOREIGN KEY (lecture_id)
              REFERENCES lectures(lecture_id)
 );
@@ -95,17 +97,20 @@ CREATE TABLE staffs
 , staff_email VARCHAR2(50) NOT NULL
 , staff_password VARCHAR2(512) NOT NULL
 , staff_name VARCHAR2(30)
+, staff_tel VARCHAR2(20)
 , staff_hire_date DATE DEFAULT SYSDATE NOT NULL
 , is_master CHAR(1) DEFAULT 'N' NOT NULL CHECK (is_master IN ('Y', 'N'))
 
 , CONSTRAINT staffs_staff_id_pk PRIMARY KEY (staff_id)
 , CONSTRAINT staffs_staff_email_uk UNIQUE (staff_email)
+, CONSTRAINT staffs_staff_name_uk UNIQUE (staff_name)
 );
 
 COMMENT ON COLUMN staffs.staff_id IS '관리자 식별번호';
 COMMENT ON COLUMN staffs.staff_email IS '관리자 이메일';
 COMMENT ON COLUMN staffs.staff_password IS '관리자 비밀번호';
 COMMENT ON COLUMN staffs.staff_name IS '관리자 이름';
+COMMENT ON COLUMN staffs.staff_tel IS '관리자 연락처';
 COMMENT ON COLUMN staffs.staff_hire_date IS '관리자 고용일';
 COMMENT ON COLUMN staffs.is_master IS '관리자 직원 여부';
 

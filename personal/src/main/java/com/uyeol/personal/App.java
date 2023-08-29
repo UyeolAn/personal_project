@@ -5,6 +5,6 @@ public class App
     public static void main( String[] args )
     {
     	AcademyManager manager = new AcademyManager();
-    	manager.run();
+    	manager.runMainMenu();
     }
 }

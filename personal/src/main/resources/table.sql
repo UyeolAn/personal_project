@@ -8,7 +8,7 @@ CREATE TABLE students
 , student_birth DATE NOT NULL
 , student_tel VARCHAR2(20)
 , enter_date DATE DEFAULT SYSDATE
-, status VARCHAR2(20) NOT NULL
+, status VARCHAR2(20) DEFAULT 'NONE' NOT NULL
          CHECK (status IN ('NONE', 'CANCEL', 'SCHEDULED', 'INCLASS', 'FINISH', 'FAIL'))
 , lecture_id NUMBER
 

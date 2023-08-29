@@ -6,12 +6,21 @@
 		SELECT *
 		FROM students
 	</select>
-
-	<select id="findStudentByName" parameterType="String" 
+	
+	<select id="findStudentForLogin" parameterType="String" 
 	 resultType="com.uyeol.personal.student.vo.StudentVO">
 		SELECT *
 		FROM students
 		WHERE student_name = #{value}
+	</select>
+	
+	<select id="findStudentByName" 
+	 parameterType="com.uyeol.personal.student.vo.StudentLoginVO" 
+	 resultType="com.uyeol.personal.student.vo.StudentVO">
+		SELECT *
+		FROM students
+		WHERE student_email = #{loginEmail} AND
+			  student_password = #{loginPassword}
 	</select>
 	
 	<insert id="createStudent" parameterType="com.uyeol.personal.student.vo.StudentVO">

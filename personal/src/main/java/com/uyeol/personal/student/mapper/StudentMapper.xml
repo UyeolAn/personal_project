@@ -2,19 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uyeol.personal.student.mapper.StudentMapper">
 
+	<select id="findAllStudentWithLecture" 
+	 resultType="com.uyeol.personal.student.vo.StudentSearchDetailVO">
+		SELECT s.student_id, s.student_name, s.student_email, s.student_birth,
+			   s.student_tel, s.enter_date, l.lecture_name, s.status
+		FROM students s
+			LEFT OUTER JOIN lectures l
+			ON s.lecture_id = l.lecture_id
+	</select>
+	
+	<select id="findAllStudentForUpdate" 
+	 resultType="com.uyeol.personal.student.vo.StudentStatusUpdateVO">
+		SELECT s.student_name, l.lecture_start_date, l.lecture_end_date
+		FROM students s
+			JOIN lectures l
+			ON s.lecture_id = l.lecture_id
+	</select>
+
 	<select id="findAllStudents" resultType="com.uyeol.personal.student.vo.StudentVO">
 		SELECT *
 		FROM students
 	</select>
 	
-	<select id="findStudentForLogin" parameterType="String" 
+	<select id="findStudentByName" parameterType="String" 
 	 resultType="com.uyeol.personal.student.vo.StudentVO">
 		SELECT *
 		FROM students
 		WHERE student_name = #{value}
 	</select>
 	
-	<select id="findStudentByName" 
+	<select id="findStudentDetail" parameterType="String" 
+	 resultType="com.uyeol.personal.student.vo.StudentSearchDetailVO">
+		SELECT s.student_id, s.student_name, s.student_email, s.student_birth,
+			   s.student_tel, s.enter_date, l.lecture_name, s.status
+		FROM students s
+			LEFT OUTER JOIN lectures l
+			ON s.lecture_id = l.lecture_id
+		WHERE s.student_name = #{value}
+	</select>
+	
+	<select id="findStudentForLogin" 
 	 parameterType="com.uyeol.personal.student.vo.StudentLoginVO" 
 	 resultType="com.uyeol.personal.student.vo.StudentVO">
 		SELECT *
@@ -33,13 +60,13 @@
 	<update id="updateStudentByName" parameterType="com.uyeol.personal.student.vo.StudentUpdateVO">
 		UPDATE students
 		<set>
-			<if test="newStudentEmail != null">student_email = #{newStudentEmail}</if>
-			<if test="newStudentPassword != null">student_password = #{newStudentPassword}</if>
-			<if test="newStudentName != null">student_name = #{newStudentName}</if>
-			<if test="newStudentBirth != null">student_birth = #{newStudentBirth}</if>
-			<if test="newStudentTel != null">student_tel = #{newStudentTel}</if>
-			<if test="newStatus != null">status = #{newStatus}</if>
-			<if test="newLectureId != 0">lecture_id = #{newLectureId}</if>
+			<if test="newStudentEmail != null">student_email = #{newStudentEmail},</if>
+			<if test="newStudentPassword != null">student_password = #{newStudentPassword},</if>
+			<if test="newStudentName != null">student_name = #{newStudentName},</if>
+			<if test="newStudentBirth != null">student_birth = #{newStudentBirth},</if>
+			<if test="newStudentTel != null">student_tel = #{newStudentTel},</if>
+			<if test="newStatus != null">status = #{newStatus},</if>
+			<if test="newLectureId != 0">lecture_id = #{newLectureId},</if>
 		</set>
 		WHERE student_name = #{targetName}
 	</update>

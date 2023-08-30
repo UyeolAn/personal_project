@@ -16,19 +16,19 @@
 	
 	<insert id="createLecture" parameterType="com.uyeol.personal.lecture.vo.LectureVO">
 		INSERT INTO lectures (lecture_id, lecture_name, lecture_discription,
-							  start_date, end_date, max_num_students)
+							  lecture_start_date, lecture_end_date, max_num_students)
 		VALUES (#{lectureId}, #{lectureName}, #{lectureDescription}, 
-			    #{startDate}, #{endDate}, #{maxNumStudents})
+			    #{lectureStartDate}, #{lectureEndDate}, #{maxNumStudents})
 	</insert>
 	
 	<update id="updateLectureByName" parameterType="com.uyeol.personal.lecture.vo.LectureUpdateVO">
 		UPDATE lectures
 		<set>
-			<if test="newLectureName != null">lecture_name = #{newLectureName}</if>
-			<if test="newLectureDescription != null">lecture_discription = #{newLectureDescription}</if>
-			<if test="newStartDate != null">start_date = #{newStartDate}</if>
-			<if test="newEndDate != null">end_date = #{newEndDate}</if>
-			<if test="newMaxNumStudents != 0">max_num_students = #{newMaxNumStudents}</if>
+			<if test="newLectureName != null">lecture_name = #{newLectureName},</if>
+			<if test="newLectureDescription != null">lecture_discription = #{newLectureDescription},</if>
+			<if test="newStartDate != null">start_date = #{newStartDate},</if>
+			<if test="newEndDate != null">end_date = #{newEndDate},</if>
+			<if test="newMaxNumStudents != 0">max_num_students = #{newMaxNumStudents},</if>
 		</set>
 		WHERE lecture_name = #{targetName}
 	</update>

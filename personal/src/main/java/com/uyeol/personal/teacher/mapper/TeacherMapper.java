@@ -2,6 +2,7 @@ package com.uyeol.personal.teacher.mapper;
 
 import java.util.List;
 
+import com.uyeol.personal.teacher.vo.TeacherSearchVO;
 import com.uyeol.personal.teacher.vo.TeacherUpdateVO;
 import com.uyeol.personal.teacher.vo.TeacherVO;
 
@@ -9,7 +10,11 @@ public interface TeacherMapper {
 	
 	List<TeacherVO> findAllTeachers();
 	
+	List<TeacherSearchVO> findAllTeachersWithLecture();
+	
 	TeacherVO findTeacherByName(String name);
+	
+	TeacherSearchVO findTeacherWithLecture(String name);
 	
 	int createTeacher(TeacherVO vo);
 	

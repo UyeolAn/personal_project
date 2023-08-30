@@ -14,9 +14,9 @@ public class LectureVO {
 	
 	private String lectureDescription;
 	
-	private LocalDate startDate;
+	private LocalDate lectureStartDate;
 	
-	private LocalDate endDate;
+	private LocalDate lectureEndDate;
 	
 	private int numStudents;
 	
@@ -37,8 +37,8 @@ public class LectureVO {
 		this.lectureId = lectureId;
 		this.lectureName = lectureName;
 		this.lectureDescription = lectureDescription;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.lectureStartDate = startDate;
+		this.lectureEndDate = endDate;
 		this.numStudents = numStudents;
 		this.maxNumStudents = maxNumStudents;
 		this.isStarted = isStarted;

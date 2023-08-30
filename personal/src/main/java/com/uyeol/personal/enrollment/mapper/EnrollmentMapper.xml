@@ -36,21 +36,23 @@
 		WHERE lecture_id = #{id}
 	</select>
 	
-	<insert id="createStaff" parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+	<insert id="createEnrollment" 
+	 parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
 		INSERT INTO enrollments (enrollment_id, student_id, lecture_id)
 		VALUES (#{enrollmentId}, #{studentId}, #{lectureId})
 	</insert>
 	
-	<update id="updateStaffByName" parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+	<update id="updateEnrollmentByStudentId" 
+	 parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
 		UPDATE enrollments
 		<set>
-			<if test="isEnrolled != null">is_enrolled = #{isEnrolled}</if>
-			<if test="lectureId != 0">lecture_id = #{lectureId}</if>
+			<if test="isEnrolled != null">is_enrolled = #{isEnrolled},</if>
+			<if test="lectureId != 0">lecture_id = #{lectureId},</if>
 		</set>
 		WHERE student_id = #{studentId}
 	</update>
 	
-	<delete id="deleteStaffByName" parameterType="int">
+	<delete id="deleteEnrollmentByStudentId" parameterType="int">
 		DELETE FROM enrollments
 		WHERE student_id = #{id}
 	</delete>

@@ -6,12 +6,29 @@
 		SELECT *
 		FROM teachers
 	</select>
+	
+	<select id="findAllTeachersWithLecture" 
+	 resultType="com.uyeol.personal.teacher.vo.TeacherSearchVO">
+		SELECT t.teacher_name, t.teacher_info, l.lecture_name
+		FROM teachers t
+			LEFT OUTER JOIN lectures l
+			ON t.lecture_id = l.lecture_id
+	</select>
 
 	<select id="findTeacherByName" parameterType="String" 
 	 resultType="com.uyeol.personal.teacher.vo.TeacherVO">
 		SELECT *
 		FROM teachers
 		WHERE teacher_name = #{value}
+	</select>
+	
+	<select id="findTeacherWithLecture" parameterType="String" 
+	 resultType="com.uyeol.personal.teacher.vo.TeacherSearchVO">
+		SELECT t.teacher_name, t.teacher_info, l.lecture_name
+		FROM teachers t
+			LEFT OUTER JOIN lectures l
+			ON t.lecture_id = l.lecture_id
+		WHERE t.teacher_name = #{value}
 	</select>
 	
 	<insert id="createTeacher" parameterType="com.uyeol.personal.teacher.vo.TeacherVO">
@@ -22,12 +39,12 @@
 	<update id="updateTeacherByName" parameterType="com.uyeol.personal.teacher.vo.TeacherUpdateVO">
 		UPDATE teachers
 		<set>
-			<if test="newTeacherName != null">teacher_name = #{newTeacherName}</if>
-			<if test="newTeacherEmail != null">teacher_email = #{newTeacherEmail}</if>
-			<if test="newTeacherInfo != null">teacher_info = #{newTeacherInfo}</if>
-			<if test="newLectureId != 0">lecture_id = #{newLectureId}</if>
+			<if test="newTeacherName != null">teacher_name = #{newTeacherName},</if>
+			<if test="newTeacherEmail != null">teacher_email = #{newTeacherEmail},</if>
+			<if test="newTeacherInfo != null">teacher_info = #{newTeacherInfo},</if>
+			<if test="newLectureId != 0">lecture_id = #{newLectureId},</if>
 		</set>
-		WHERE teacher_name = #{targetName}
+		WHERE t.teacher_name = #{targetName}
 	</update>
 	
 	<delete id="deleteTeacherByName" parameterType="String">

@@ -6,7 +6,7 @@ import lombok.Data;
 public class StaffUpdateVO {
 	
 	// search field
-	private int targetName;
+	private String targetName;
 	
 	// new variable field
 	private String newStaffEmail;
@@ -24,7 +24,7 @@ public class StaffUpdateVO {
 	}
 
 
-	public StaffUpdateVO(int targetName, String newStaffEmail, 
+	public StaffUpdateVO(String targetName, String newStaffEmail, 
 			String newStaffPassword, String newStaffName, String newStaffTel) {
 		super();
 		this.targetName = targetName;

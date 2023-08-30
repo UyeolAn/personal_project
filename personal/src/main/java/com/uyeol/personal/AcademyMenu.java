@@ -2,34 +2,35 @@ package com.uyeol.personal;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.uyeol.personal.common.ManagerFunction;
+import com.uyeol.personal.staff.StaffMenu;
 import com.uyeol.personal.staff.service.StaffService;
 import com.uyeol.personal.staff.service.StaffServiceImpl;
 import com.uyeol.personal.staff.vo.StaffLoginVO;
 import com.uyeol.personal.staff.vo.StaffVO;
+import com.uyeol.personal.student.StudentMenu;
 import com.uyeol.personal.student.service.StudentService;
 import com.uyeol.personal.student.service.StudentServiceImpl;
 import com.uyeol.personal.student.vo.StudentLoginVO;
 import com.uyeol.personal.student.vo.StudentVO;
 
-public class AcademyManager {
+public class AcademyMenu {
 	
-	// global variable field
-	public static int id_sequence = 1;
+	// global field
+	public static int id_sequence;
 	
-	public static StudentVO loginStudent;
+	public static StudentVO loginStudent = null;
 	
-	public static StaffVO loginStaff;
+	public static StaffVO loginStaff = null;
 	
 	public static boolean isLogin = false;
 	
-	public static String datePattern = "yyyy.MM.dd";
-	
+	private static String datePattern = "yyyy.MM.dd";
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(datePattern); 
 	
-	// field
+	// fields
 	private Scanner scn = new Scanner(System.in);
 	
 	private StudentService studentService = new StudentServiceImpl();
@@ -37,12 +38,21 @@ public class AcademyManager {
 	private StaffService staffService = new StaffServiceImpl();
 	
 	
+	// constructor
+	public AcademyMenu() {
+		init();
+	}
+	
+	private void init() {
+		id_sequence = ManagerFunction.loadSequence();
+	}
+	
 	
 	// main method
 	public void runMainMenu() {
 		do {
 			printMainMenu();
-			int mainMenu = inputNumber();
+			int mainMenu = ManagerFunction.inputNumber();
 			
 			switch (mainMenu) {
 				case 1:
@@ -52,22 +62,29 @@ public class AcademyManager {
 					join();
 					break;
 				case 3:
+					runFindMenu();
 					break;
 				case 0:
-					System.out.println("프로그램을 종료합니다.");
-					System.exit(0);
+					ManagerFunction.exitProgram();
 					break;
 				default:
 					break;
 			}
 			
 			if (isLogin) {
-				//TODO : 로그인 대상 메뉴로 이동
+				if (loginStudent != null) {
+					StudentMenu manager = new StudentMenu();
+					manager.runStudentMenu();
+				} else if (loginStaff != null) {
+					StaffMenu manager = new StaffMenu();
+					manager.runStaffMenu();
+				}
 			}
-			
 		} while (true);
 	}
 	
+	
+	// sub method
 	private void printMainMenu() {
 		System.out.println("=======================");
 		System.out.println("    < OO 직업전문학교 >    ");
@@ -81,20 +98,9 @@ public class AcademyManager {
 		System.out.println("매뉴를 선택하세요 >>");
 	}
 	
-	private int inputNumber() {
-		try {
-			int result = scn.nextInt();
-			scn.nextLine();
-			return result;
-		} catch (InputMismatchException e) {
-			scn.nextLine();
-			return -1;
-		}
-	}
-	
 	private void runLoginMenu() {
 		printLoginMenu();
-		int loginMenu = inputNumber();
+		int loginMenu = ManagerFunction.inputNumber();
 		
 		switch (loginMenu) {
 			case 1:
@@ -107,8 +113,7 @@ public class AcademyManager {
 				System.out.println("메인메뉴로 나갑니다.");
 				break;
 			case 0:
-				System.out.println("프로그램을 종료합니다.");
-				System.exit(0);
+				ManagerFunction.exitProgram();
 				break;
 			default:
 				break;
@@ -160,7 +165,7 @@ public class AcademyManager {
 		String password = scn.nextLine();
 		
 		loginStaff = staffService.login(new StaffLoginVO(email, password));
-		if (loginStudent != null) {
+		if (loginStaff != null) {
 			isLogin = true;
 		} else {
 			System.out.println("이메일 또는 비밀번호가 일치하지 않습니다.");
@@ -187,13 +192,56 @@ public class AcademyManager {
 		System.out.println("연락처를 입력하세요 >>");
 		String tel = scn.nextLine();
 		
-		int numIns = studentService.join(
-				new StudentVO(AcademyManager.id_sequence++, email, password, name, birth, tel));
+		int numIns = studentService.createStudent(
+				new StudentVO(AcademyMenu.id_sequence++, email, password, name, birth, tel));
 		if (numIns != 0) {
 			System.out.printf("'%s'님, 회원이 되신 것을 환영합니다!\n", name);
 		} else {
 			System.out.printf("회원가입에 실패하였습니다.");
 		}
+	}
+	
+	private void runFindMenu() {
+		printFindMenu();
+		int findMenu = ManagerFunction.inputNumber();
+		
+		switch (findMenu) {
+			case 1:
+				findEmail();
+				break;
+			case 2:
+				findPassword();
+				break;
+			case 9:
+				System.out.println("메인메뉴로 나갑니다.");
+				break;
+			case 0:
+				ManagerFunction.exitProgram();
+				break;
+			default:
+				break;
+		}
+	}
+	
+	private void printFindMenu() {
+		System.out.println("=======================");
+		System.out.println("    < OO 직업전문학교 >    ");
+		System.out.println("    이메일/비밀번호 찾기     ");
+		System.out.println("=======================");
+		System.out.println("    1. 이메일 찾기");
+		System.out.println("    2. 비밀번호 찾기");
+		System.out.println("    9. 이전으로");
+		System.out.println("    0. 프로그램 종료");
+		System.out.println("=======================");
+		System.out.println("매뉴를 선택하세요 >>");
+	}
+	
+	private void findEmail() {
+		// TODO : 이메일 찾기 
+	}
+	
+	private void findPassword() {
+		// TODO : 비밀번호 찾기
 	}
 
 }

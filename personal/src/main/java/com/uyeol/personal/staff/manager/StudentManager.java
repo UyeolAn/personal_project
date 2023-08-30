@@ -152,7 +152,7 @@ public class StudentManager {
 		System.out.println("    학생 전체 조회 입니다     ");
 		System.out.println("------------------------");
 		
-		List<StudentSearchDetailVO> studentList = studentService.findAllStudentWithLecture();
+		List<StudentSearchDetailVO> studentList = studentService.findAllStudentsWithLecture();
 		
 		System.out.println("------------------------");
 		for (StudentSearchDetailVO vo : studentList) {

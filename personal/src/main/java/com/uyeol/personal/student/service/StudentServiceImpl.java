@@ -20,8 +20,8 @@ public class StudentServiceImpl implements StudentService {
 	
 	
 	@Override
-	public List<StudentSearchDetailVO> findAllStudentWithLecture() {
-		return map.findAllStudentWithLecture();
+	public List<StudentSearchDetailVO> findAllStudentsWithLecture() {
+		return map.findAllStudentsWithLecture();
 	}
 	
 	@Override

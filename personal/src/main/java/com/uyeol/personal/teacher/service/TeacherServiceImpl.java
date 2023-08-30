@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.uyeol.personal.common.DataSource;
 import com.uyeol.personal.teacher.mapper.TeacherMapper;
+import com.uyeol.personal.teacher.vo.TeacherSearchDetailVO;
 import com.uyeol.personal.teacher.vo.TeacherSearchVO;
+import com.uyeol.personal.teacher.vo.TeacherUpdateVO;
 import com.uyeol.personal.teacher.vo.TeacherVO;
 
 public class TeacherServiceImpl implements TeacherService {
@@ -35,7 +37,25 @@ public class TeacherServiceImpl implements TeacherService {
 	public TeacherSearchVO findTeacherWithLecture(String name) {
 		return map.findTeacherWithLecture(name);
 	}
-
 	
+	@Override
+	public TeacherSearchDetailVO findTeacherDetail(String name) {
+		return map.findTeacherDetail(name);
+	}
+
+	@Override
+	public int createTeacher(TeacherVO vo) {
+		return map.createTeacher(vo);
+	}
+
+	@Override
+	public int updateTeacherByName(TeacherUpdateVO vo) {
+		return map.updateTeacherByName(vo);
+	}
+
+	@Override
+	public int deleteTeacherByName(String name) {
+		return map.deleteTeacherByName(name);
+	}
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uyeol.personal.student.mapper.StudentMapper">
 
-	<select id="findAllStudentWithLecture" 
+	<select id="findAllStudentsWithLecture" 
 	 resultType="com.uyeol.personal.student.vo.StudentSearchDetailVO">
 		SELECT s.student_id, s.student_name, s.student_email, s.student_birth,
 			   s.student_tel, s.enter_date, l.lecture_name, s.status

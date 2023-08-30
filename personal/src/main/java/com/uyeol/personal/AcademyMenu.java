@@ -193,7 +193,7 @@ public class AcademyMenu {
 		String tel = scn.nextLine();
 		
 		int numIns = studentService.createStudent(
-				new StudentVO(AcademyMenu.id_sequence++, email, password, name, birth, tel));
+				new StudentVO(id_sequence++, email, password, name, birth, tel));
 		if (numIns != 0) {
 			System.out.printf("'%s'님, 회원이 되신 것을 환영합니다!\n", name);
 		} else {

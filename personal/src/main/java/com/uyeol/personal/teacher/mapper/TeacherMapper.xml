@@ -31,6 +31,16 @@
 		WHERE t.teacher_name = #{value}
 	</select>
 	
+	<select id="findTeacherDetail" parameterType="String" 
+	 resultType="com.uyeol.personal.teacher.vo.TeacherSearchDetailVO">
+		SELECT t.teacher_id, t.teacher_name, t.teacher_email, 
+			   t.teacher_info, l.lecture_name, t.teacher_hire_date
+		FROM teachers t
+			LEFT OUTER JOIN lectures l
+			ON t.lecture_id = l.lecture_id
+		WHERE t.teacher_name = #{value}
+	</select>
+	
 	<insert id="createTeacher" parameterType="com.uyeol.personal.teacher.vo.TeacherVO">
 		INSERT INTO teachers (teacher_id, teacher_name, teacher_email, teacher_info)
 		VALUES (#{teacherId}, #{teacherName}, #{teacherEmail}, #{teacherInfo})

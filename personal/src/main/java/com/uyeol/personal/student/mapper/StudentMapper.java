@@ -10,7 +10,7 @@ import com.uyeol.personal.student.vo.StudentVO;
 
 public interface StudentMapper {
 
-	List<StudentSearchDetailVO> findAllStudentWithLecture();
+	List<StudentSearchDetailVO> findAllStudentsWithLecture();
 	
 	List<StudentStatusUpdateVO> findAllStudentForUpdate();
 	

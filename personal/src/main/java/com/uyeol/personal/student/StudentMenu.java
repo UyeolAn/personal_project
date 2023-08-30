@@ -271,6 +271,8 @@ public class StudentMenu {
 		
 		if (password.equals(AcademyMenu.loginStudent.getStudentPassword())) {
 			runModifyInfoMenu();
+		} else {
+			System.out.println("비밀번호가 틀렸습니다.");
 		}
 	}
 	

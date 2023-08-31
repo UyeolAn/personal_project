@@ -308,17 +308,19 @@ public class StudentMenu {
 			System.out.println("비밀번호를 입력하세요 >>");
 			String password = scn.nextLine();
 			
-			if (AcademyMenu.loginStudent.getStatus() == Status.NONE ||
-				AcademyMenu.loginStudent.getStatus() == Status.CANCEL) {
-				int numEnDel = enrollmentService.deleteEnrollmentByStudentId(
-						AcademyMenu.loginStudent.getStudentId());
-				if (numEnDel != 0) {
-					System.out.println("수강신청 취소를 완료하였습니다.");
-				} else {
-					System.out.println("수강신청 취소에 실패하였습니다.");
-				}
-			} else {
-				System.out.println("이미 접수되었거나 수강중이라 취소가 불가능합니다.");
+			if (password.equals(AcademyMenu.loginStudent.getStudentPassword())) {
+				if (AcademyMenu.loginStudent.getStatus() == Status.NONE ||
+						AcademyMenu.loginStudent.getStatus() == Status.CANCEL) {
+						int numEnDel = enrollmentService.deleteEnrollmentByStudentId(
+								AcademyMenu.loginStudent.getStudentId());
+						if (numEnDel != 0) {
+							System.out.println("수강신청 취소를 완료하였습니다.");
+						} else {
+							System.out.println("수강신청 취소에 실패하였습니다.");
+						}
+					} else {
+						System.out.println("이미 접수되었거나 수강중이라 취소가 불가능합니다.");
+					}
 			}
 		} else {
 			System.out.println("수강신청 정보가 없습니다.");

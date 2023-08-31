@@ -44,4 +44,10 @@ public class LectureVO {
 		this.isStarted = isStarted;
 	}
 
+	public LectureVO(String lectureName, int numStudents) {
+		super();
+		this.lectureName = lectureName;
+		this.numStudents = numStudents;
+	}
+
 }

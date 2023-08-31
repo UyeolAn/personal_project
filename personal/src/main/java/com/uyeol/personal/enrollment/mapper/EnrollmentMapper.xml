@@ -2,26 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uyeol.personal.enrollment.mapper.EnrollmentMapper">
 
-	<select id="findAllEnrollments" 
-	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
-		SELECT *
-		FROM enrollments
+	<select id="findEnrollmentSearchVOs" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentSearchVO">
+		SELECT s.student_name, l.lecture_name, e.enrollment_date, e.is_enrolled
+		FROM enrollments e
+			LEFT OUTER JOIN students s
+			ON e.student_id = s.student_id
+			LEFT OUTER JOIN lectures l
+			ON e.lecture_id = l.lecture_id
 	</select>
 	
-	<select id="findEnrolledEnrollments" 
-	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
-		SELECT *
-		FROM enrollments
-		WHERE is_enrolled = 'Y'
+	<select id="findEnrollmentSearchVOsByStudent" parameterType="String" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentSearchVO">
+		SELECT s.student_name, l.lecture_name, e.enrollment_date, e.is_enrolled
+		FROM enrollments e
+			LEFT OUTER JOIN students s
+			ON e.student_id = s.student_id
+			LEFT OUTER JOIN lectures l
+			ON e.lecture_id = l.lecture_id
+		WHERE s.student_name = #{value}
 	</select>
 	
-	<select id="findNonEnrolledEnrollments" 
-	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
-		SELECT *
-		FROM enrollments
-		WHERE is_enrolled = 'N'
+	<select id="findEnrollmentSearchVOsByLecture" parameterType="String" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentSearchVO">
+		SELECT s.student_name, l.lecture_name, e.enrollment_date, e.is_enrolled
+		FROM enrollments e
+			LEFT OUTER JOIN students s
+			ON e.student_id = s.student_id
+			LEFT OUTER JOIN lectures l
+			ON e.lecture_id = l.lecture_id
+		WHERE l.lecture_name = #{value}
 	</select>
-
+	
+	<select id="findNotEnrolledEnrollmentSearchVOs"
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentSearchVO">
+		SELECT s.student_name, l.lecture_name, e.enrollment_date, e.is_enrolled
+		FROM enrollments e
+			LEFT OUTER JOIN students s
+			ON e.student_id = s.student_id
+			LEFT OUTER JOIN lectures l
+			ON e.lecture_id = l.lecture_id
+		WHERE e.is_enrolled = 'N'
+	</select>
+	
+	<select id="findEnrolledEnrollmentSearchVOs"
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentSearchVO">
+		SELECT s.student_name, l.lecture_name, e.enrollment_date, e.is_enrolled
+		FROM enrollments e
+			LEFT OUTER JOIN students s
+			ON e.student_id = s.student_id
+			LEFT OUTER JOIN lectures l
+			ON e.lecture_id = l.lecture_id
+		WHERE e.is_enrolled = 'Y'
+	</select>
+	
 	<select id="findEnrollmentByStudentId" parameterType="int" 
 	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
 		SELECT *
@@ -36,6 +70,19 @@
 		WHERE lecture_id = #{id}
 	</select>
 	
+	<select id="findEnrollmentForTake" 
+	 parameterType="com.uyeol.personal.enrollment.vo.EnrollmentTakeVO" 
+	 resultType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
+		SELECT e.*
+		FROM enrollments e
+			LEFT OUTER JOIN students s
+			ON e.student_id = s.student_id
+			LEFT OUTER JOIN lectures l
+			ON e.lecture_id = l.lecture_id
+		WHERE s.student_name = #{studentName} AND
+			  l.lecture_name = #{lectureName}
+	</select>
+	
 	<insert id="createEnrollment" 
 	 parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
 		INSERT INTO enrollments (enrollment_id, student_id, lecture_id)
@@ -46,7 +93,7 @@
 	 parameterType="com.uyeol.personal.enrollment.vo.EnrollmentVO">
 		UPDATE enrollments
 		<set>
-			<if test="isEnrolled != null">is_enrolled = #{isEnrolled},</if>
+			<if test="isEnrolled == true">is_enrolled = 'Y',</if>
 			<if test="lectureId != 0">lecture_id = #{lectureId},</if>
 		</set>
 		WHERE student_id = #{studentId}

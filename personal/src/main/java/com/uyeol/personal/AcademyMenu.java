@@ -44,7 +44,7 @@ public class AcademyMenu {
 	}
 	
 	private void init() {
-		id_sequence = ManagerFunction.loadSequence();
+		AcademyMenu.id_sequence = ManagerFunction.loadSequence();
 	}
 	
 	
@@ -60,9 +60,6 @@ public class AcademyMenu {
 					break;
 				case 2:
 					join();
-					break;
-				case 3:
-					runFindMenu();
 					break;
 				case 0:
 					ManagerFunction.exitProgram();
@@ -92,7 +89,6 @@ public class AcademyMenu {
 		System.out.println("=======================");
 		System.out.println("    1. 로그인");
 		System.out.println("    2. 회원가입");
-		System.out.println("    3. 이메일/PW 찾기");
 		System.out.println("    0. 프로그램 종료");
 		System.out.println("=======================");
 		System.out.println("매뉴를 선택하세요 >>");
@@ -145,8 +141,10 @@ public class AcademyMenu {
 		System.out.println("비밀번호를 입력하세요 >>");
 		String password = scn.nextLine();
 		
-		loginStudent = studentService.login(new StudentLoginVO(email, password));
-		if (loginStudent != null) {
+		AcademyMenu.loginStudent = studentService.login(new StudentLoginVO(email, password));
+		if (AcademyMenu.loginStudent != null) {
+			System.out.printf("'%s'님 로그인 하셨습니다.\n", 
+					AcademyMenu.loginStudent.getStudentName());
 			isLogin = true;
 		} else {
 			System.out.println("이메일 또는 비밀번호가 일치하지 않습니다.");
@@ -166,6 +164,7 @@ public class AcademyMenu {
 		
 		loginStaff = staffService.login(new StaffLoginVO(email, password));
 		if (loginStaff != null) {
+			System.out.printf("'%s'님 로그인 하셨습니다.\n", loginStaff.getStaffName());
 			isLogin = true;
 		} else {
 			System.out.println("이메일 또는 비밀번호가 일치하지 않습니다.");
@@ -192,56 +191,13 @@ public class AcademyMenu {
 		System.out.println("연락처를 입력하세요 >>");
 		String tel = scn.nextLine();
 		
+		
 		int numIns = studentService.createStudent(
-				new StudentVO(id_sequence++, email, password, name, birth, tel));
+				new StudentVO(AcademyMenu.id_sequence++, email, password, name, birth, tel));
 		if (numIns != 0) {
 			System.out.printf("'%s'님, 회원이 되신 것을 환영합니다!\n", name);
 		} else {
 			System.out.printf("회원가입에 실패하였습니다.");
 		}
 	}
-	
-	private void runFindMenu() {
-		printFindMenu();
-		int findMenu = ManagerFunction.inputNumber();
-		
-		switch (findMenu) {
-			case 1:
-				findEmail();
-				break;
-			case 2:
-				findPassword();
-				break;
-			case 9:
-				System.out.println("메인메뉴로 나갑니다.");
-				break;
-			case 0:
-				ManagerFunction.exitProgram();
-				break;
-			default:
-				break;
-		}
-	}
-	
-	private void printFindMenu() {
-		System.out.println("=======================");
-		System.out.println("    < OO 직업전문학교 >    ");
-		System.out.println("    이메일/비밀번호 찾기     ");
-		System.out.println("=======================");
-		System.out.println("    1. 이메일 찾기");
-		System.out.println("    2. 비밀번호 찾기");
-		System.out.println("    9. 이전으로");
-		System.out.println("    0. 프로그램 종료");
-		System.out.println("=======================");
-		System.out.println("매뉴를 선택하세요 >>");
-	}
-	
-	private void findEmail() {
-		// TODO : 이메일 찾기 
-	}
-	
-	private void findPassword() {
-		// TODO : 비밀번호 찾기
-	}
-
 }

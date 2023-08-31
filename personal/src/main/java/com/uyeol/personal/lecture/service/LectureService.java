@@ -15,6 +15,10 @@ public interface LectureService {
 	
 	int updateLectureByName(LectureUpdateVO vo);
 	
+	int plusNumStudents(String name);
+	
+	int minusNumStudents(String name);
+	
 	int deleteLectureByName(String name);
 	
 }

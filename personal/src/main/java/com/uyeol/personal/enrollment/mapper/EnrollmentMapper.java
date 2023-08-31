@@ -2,19 +2,27 @@ package com.uyeol.personal.enrollment.mapper;
 
 import java.util.List;
 
+import com.uyeol.personal.enrollment.vo.EnrollmentSearchVO;
+import com.uyeol.personal.enrollment.vo.EnrollmentTakeVO;
 import com.uyeol.personal.enrollment.vo.EnrollmentVO;
 
 public interface EnrollmentMapper {
 
-	List<EnrollmentVO> findAllEnrollments();
+	List<EnrollmentSearchVO> findEnrollmentSearchVOs();
 	
-	List<EnrollmentVO> findEnrolledEnrollments();
+	List<EnrollmentSearchVO> findEnrollmentSearchVOsByStudent(String name);
 	
-	List<EnrollmentVO> findNonEnrolledEnrollments();
+	List<EnrollmentSearchVO> findEnrollmentSearchVOsByLecture(String name);
+	
+	List<EnrollmentSearchVO> findNotEnrolledEnrollmentSearchVOs();
+	
+	List<EnrollmentSearchVO> findEnrolledEnrollmentSearchVOs();
 	
 	EnrollmentVO findEnrollmentByStudentId(int id);
 	
 	EnrollmentVO findEnrollmentByLectureId(int id);
+	
+	EnrollmentVO findEnrollmentForTake(EnrollmentTakeVO vo);
 	
 	int createEnrollment(EnrollmentVO vo);
 	

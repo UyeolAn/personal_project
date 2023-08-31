@@ -54,7 +54,7 @@
 			<if test="newTeacherInfo != null">teacher_info = #{newTeacherInfo},</if>
 			<if test="newLectureId != 0">lecture_id = #{newLectureId},</if>
 		</set>
-		WHERE t.teacher_name = #{targetName}
+		WHERE teacher_name = #{targetName}
 	</update>
 	
 	<delete id="deleteTeacherByName" parameterType="String">

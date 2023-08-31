@@ -42,16 +42,19 @@ public class StudentUpdateVO {
 		this.newStudentTel = newStudentTel;
 	}
 
+	public StudentUpdateVO(String targetName, Status newStatus, int newLectureId) {
+		super();
+		this.targetName = targetName;
+		this.newStatus = newStatus;
+		this.newLectureId = newLectureId;
+	}
+
 	public StudentUpdateVO(String targetName, Status newStatus) {
 		super();
 		this.targetName = targetName;
 		this.newStatus = newStatus;
 	}
-
-	public StudentUpdateVO(String targetName, int newLectureId) {
-		super();
-		this.targetName = targetName;
-		this.newLectureId = newLectureId;
-	}
+	
+	
 	
 }

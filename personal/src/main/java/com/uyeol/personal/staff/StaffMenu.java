@@ -6,7 +6,6 @@ import com.uyeol.personal.AcademyMenu;
 import com.uyeol.personal.common.ManagerFunction;
 import com.uyeol.personal.staff.manager.EnrollmentManager;
 import com.uyeol.personal.staff.manager.LectureManager;
-import com.uyeol.personal.staff.manager.StaffManager;
 import com.uyeol.personal.staff.manager.StudentManager;
 import com.uyeol.personal.staff.manager.TeacherManager;
 import com.uyeol.personal.staff.service.StaffService;
@@ -46,8 +45,12 @@ public class StaffMenu {
 					enrollmentManager.runMenu();
 					break;
 				case 5:
-					StaffManager staffManager = new StaffManager();
-					staffManager.runMenu();
+//					if (AcademyMenu.loginStaff.isMaster()) {
+//						StaffManager staffManager = new StaffManager();
+//						staffManager.runMenu();
+//					} else {
+//						System.out.println("권한이 없습니다.");
+//					}
 					break;
 				case 6:
 					modifyInfo();
@@ -76,7 +79,7 @@ public class StaffMenu {
 		System.out.println("    2. 강의 관리");
 		System.out.println("    3. 강사 관리");
 		System.out.println("    4. 수강신청 관리");
-		System.out.println("    5. 관리자 관리");
+		System.out.println("    5. 관리자 관리(미구현)");
 		System.out.println("    6. 개인정보 수정");
 		System.out.println("    9. 로그 아웃");
 		System.out.println("    0. 프로그램 종료");

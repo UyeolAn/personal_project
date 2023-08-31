@@ -15,7 +15,7 @@
 	</select>
 	
 	<insert id="createLecture" parameterType="com.uyeol.personal.lecture.vo.LectureVO">
-		INSERT INTO lectures (lecture_id, lecture_name, lecture_discription,
+		INSERT INTO lectures (lecture_id, lecture_name, lecture_description,
 							  lecture_start_date, lecture_end_date, max_num_students)
 		VALUES (#{lectureId}, #{lectureName}, #{lectureDescription}, 
 			    #{lectureStartDate}, #{lectureEndDate}, #{maxNumStudents})
@@ -25,17 +25,29 @@
 		UPDATE lectures
 		<set>
 			<if test="newLectureName != null">lecture_name = #{newLectureName},</if>
-			<if test="newLectureDescription != null">lecture_discription = #{newLectureDescription},</if>
-			<if test="newStartDate != null">start_date = #{newStartDate},</if>
-			<if test="newEndDate != null">end_date = #{newEndDate},</if>
+			<if test="newLectureDescription != null">lecture_description = #{newLectureDescription},</if>
+			<if test="newStartDate != null">lecture_start_date = #{newStartDate},</if>
+			<if test="newEndDate != null">lecture_end_date = #{newEndDate},</if>
 			<if test="newMaxNumStudents != 0">max_num_students = #{newMaxNumStudents},</if>
 		</set>
 		WHERE lecture_name = #{targetName}
 	</update>
 	
+	<update id="plusNumStudents" parameterType="String">
+		UPDATE lectures
+		SET num_students = num_students + 1
+		WHERE lecture_name = #{value}
+	</update>
+	
+	<update id="minusNumStudents" parameterType="String">
+		UPDATE lectures
+		SET num_students = num_students - 1
+		WHERE lecture_name = #{value}
+	</update>
+	
 	<delete id="deleteLectureByName" parameterType="String">
-		DELETE FROM students
-		WHERE student_name = #{value}
+		DELETE FROM lectures
+		WHERE lecture_name = #{value}
 	</delete>
 
 </mapper>

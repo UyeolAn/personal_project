@@ -163,7 +163,7 @@ public class TeacherManager {
 		String info = scn.nextLine();
 		
 		int numIns = teacherService.createTeacher(
-				new TeacherVO(AcademyMenu.id_sequence, name, email, info));
+				new TeacherVO(AcademyMenu.id_sequence++, name, email, info));
 		if (numIns != 0) {
 			System.out.println("강사 등록이 완료되었습니다.");
 		} else {

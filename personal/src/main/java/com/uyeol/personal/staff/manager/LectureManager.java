@@ -257,10 +257,10 @@ public class LectureManager {
 		System.out.println("새로운 설명을 입력하세요 >>");
 		String newDescription = scn.nextLine();
 		
-		System.out.println("새로운 시작일을 입력하세요 >>");
+		System.out.println("새로운 시작일을 입력하세요(yyyy.MM.dd) >>");
 		LocalDate newStartDate = LocalDate.parse(scn.nextLine(), AcademyMenu.formatter);
 		
-		System.out.println("새로운 종료일을 입력하세요 >>");
+		System.out.println("새로운 종료일을 입력하세요(yyyy.MM.dd) >>");
 		LocalDate newEndDate = LocalDate.parse(scn.nextLine(), AcademyMenu.formatter);
 		
 		System.out.println("새로운 최대 인원수를 입력하세요 >>");
@@ -320,10 +320,10 @@ public class LectureManager {
 		System.out.println("      기간 변경 입니다       ");
 		System.out.println("------------------------");
 		
-		System.out.println("새로운 시작일을 입력하세요 >>");
+		System.out.println("새로운 시작일을 입력하세요(yyyy.MM.dd) >>");
 		LocalDate newStartDate = LocalDate.parse(scn.nextLine(), AcademyMenu.formatter);
 		
-		System.out.println("새로운 종료일을 입력하세요 >>");
+		System.out.println("새로운 종료일을 입력하세요(yyyy.MM.dd) >>");
 		LocalDate newEndDate = LocalDate.parse(scn.nextLine(), AcademyMenu.formatter);
 		
 		LectureUpdateVO updateVO = new LectureUpdateVO(

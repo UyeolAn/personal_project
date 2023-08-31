@@ -6,14 +6,15 @@ import java.util.Scanner;
 
 import com.uyeol.personal.AcademyMenu;
 import com.uyeol.personal.common.ManagerFunction;
-import com.uyeol.personal.enrollment.service.EnrollmentServiceImpl;
 import com.uyeol.personal.enrollment.service.EnrollmentService;
+import com.uyeol.personal.enrollment.service.EnrollmentServiceImpl;
 import com.uyeol.personal.enrollment.vo.EnrollmentVO;
 import com.uyeol.personal.lecture.service.LectureService;
 import com.uyeol.personal.lecture.service.LectureServiceImpl;
 import com.uyeol.personal.lecture.vo.LectureVO;
 import com.uyeol.personal.student.service.StudentService;
 import com.uyeol.personal.student.service.StudentServiceImpl;
+import com.uyeol.personal.student.vo.Status;
 import com.uyeol.personal.student.vo.StudentUpdateVO;
 import com.uyeol.personal.teacher.service.TeacherService;
 import com.uyeol.personal.teacher.service.TeacherServiceImpl;
@@ -43,18 +44,24 @@ public class StudentMenu {
 			
 			switch (studentMenu) {
 				case 1:
-					runSearchLectureMenu();
+					showInfo();
 					break;
 				case 2:
-					runSearchTeacherMenu();
+					runSearchLectureMenu();
 					break;
 				case 3:
-					enrollLecture();
+					runSearchTeacherMenu();
 					break;
 				case 4:
-					modifyInfo();
+					enrollLecture();
 					break;
 				case 5:
+					cancelEnrollment();
+					break;
+				case 6:
+					modifyInfo();
+					break;
+				case 7:
 					dropOut();
 					break;
 				case 9:
@@ -78,15 +85,34 @@ public class StudentMenu {
 		System.out.println("    < OO 직업전문학교 >    ");
 		System.out.println("       학 생 메 뉴        ");
 		System.out.println("=======================");
-		System.out.println("    1. 강의 조회");
-		System.out.println("    2. 강사 조회");
-		System.out.println("    3. 수강 신청");
-		System.out.println("    4. 개인정보 수정");
-		System.out.println("    5. 회원 탈퇴");
+		System.out.println("    1. 개인정보 조회");
+		System.out.println("    2. 강의 조회");
+		System.out.println("    3. 강사 조회");
+		System.out.println("    4. 수강 신청");
+		System.out.println("    5. 수강신청 취소");
+		System.out.println("    6. 개인정보 수정");
+		System.out.println("    7. 회원 탈퇴");
 		System.out.println("    9. 로그 아웃");
 		System.out.println("    0. 프로그램 종료");
 		System.out.println("=======================");
 		System.out.println("매뉴를 선택하세요 >>");
+	}
+	
+	private void showInfo() {	
+		System.out.println("------------------------");
+		System.out.println("     개인정보 조회 입니다    ");
+		System.out.println("------------------------");
+		
+		System.out.println("------------------------");
+		System.out.printf("이름 : %s\n", AcademyMenu.loginStudent.getStudentName());
+		System.out.printf("이메일 : %s\n", AcademyMenu.loginStudent.getStudentEmail());
+		System.out.printf("생년월일 : %s\n", 
+				AcademyMenu.loginStudent.getStudentBirth().format(AcademyMenu.formatter));
+		System.out.printf("연락처 : %s\n", AcademyMenu.loginStudent.getStudentTel());
+		System.out.printf("상태 : %s\n", AcademyMenu.loginStudent.getStatus());
+		System.out.printf("수강강의 : %s\n", studentService.findStudentDetail(
+				AcademyMenu.loginStudent.getStudentName()).getLectureName());
+		System.out.println("------------------------");
 	}
 	
 	private void runSearchLectureMenu() {
@@ -139,7 +165,7 @@ public class StudentMenu {
 			System.out.printf("기간 : %s ~ %s\n",
 					searchedVO.getLectureStartDate().format(AcademyMenu.formatter),
 					searchedVO.getLectureEndDate().format(AcademyMenu.formatter));
-			System.out.printf("모집 인원 : %d명", searchedVO.getMaxNumStudents());
+			System.out.printf("모집 인원 : %d명\n", searchedVO.getMaxNumStudents());
 			if (searchedVO.isStarted()) {
 				System.out.println("-진행중-");
 			} else {
@@ -231,33 +257,71 @@ public class StudentMenu {
 		
 		List<TeacherSearchVO> teacherList = teacherService.findAllTeachersWithLecture();
 		
-		System.out.println("------------------------");
+		System.out.println("----------------------------------------");
 		for (TeacherSearchVO vo : teacherList) {
 			System.out.printf("이름 : %s, 담당강의 : %s\n",
 					vo.getTeacherName(), vo.getLectureName());
 		}
-		System.out.println("------------------------");
+		System.out.println("----------------------------------------");
 	}
 	
 	private void enrollLecture() {
-		System.out.println("------------------------");
-		System.out.println("      수강 신청 입니다       ");
-		System.out.println("------------------------");
-		
-		System.out.println("신청하실 강의 이름을 입력하세요 >>");
-		String name = scn.nextLine();
-		
-		LectureVO enrollLecture = lectureService.findLectureByName(name);
-		EnrollmentVO enrollment = new EnrollmentVO(
-				AcademyMenu.id_sequence++, 
-				AcademyMenu.loginStudent.getStudentId(),
-				enrollLecture.getLectureId());
-		
-		int numIns = enrollmentService.createEnrollment(enrollment);
-		if (numIns != 0) {
-			System.out.println("수강신청 접수가 완료되었습니다.");
+		if (enrollmentService.findEnrollmentByStudentId(
+				AcademyMenu.loginStudent.getStudentId()) == null) {
+			System.out.println("------------------------");
+			System.out.println("      수강 신청 입니다       ");
+			System.out.println("------------------------");
+			
+			System.out.println("신청하실 강의 이름을 입력하세요 >>");
+			String name = scn.nextLine();
+				
+			LectureVO enrollLecture = lectureService.findLectureByName(name);
+			
+			if (enrollLecture != null) {
+				EnrollmentVO enrollment = new EnrollmentVO(
+						AcademyMenu.id_sequence++, 
+						AcademyMenu.loginStudent.getStudentId(),
+						enrollLecture.getLectureId());
+				int numIns = enrollmentService.createEnrollment(enrollment);
+				if (numIns != 0) {
+					System.out.println("수강신청 접수가 완료되었습니다.");
+				} else {
+					System.out.println("수강신처 접수에 실패하였습니다.");
+				}
+			} else {
+				System.out.println("해당 이름의 강의는 존재하지 않습니다.");
+			}
 		} else {
-			System.out.println("해당 이름의 강의는 존재하지 않습니다.");
+			System.out.println("이미 수강신청을 하셨습니다.");
+		}
+	}
+	
+	private void cancelEnrollment() {
+		EnrollmentVO enrollmentVO = enrollmentService.findEnrollmentByStudentId(
+				AcademyMenu.loginStudent.getStudentId());
+		
+		if (enrollmentVO != null) {
+			System.out.println("------------------------");
+			System.out.println("     수강신청 취소 입니다     ");
+			System.out.println("------------------------");
+			
+			System.out.println("비밀번호를 입력하세요 >>");
+			String password = scn.nextLine();
+			
+			if (AcademyMenu.loginStudent.getStatus() == Status.NONE ||
+				AcademyMenu.loginStudent.getStatus() == Status.CANCEL) {
+				int numEnDel = enrollmentService.deleteEnrollmentByStudentId(
+						AcademyMenu.loginStudent.getStudentId());
+				if (numEnDel != 0) {
+					System.out.println("수강신청 취소를 완료하였습니다.");
+				} else {
+					System.out.println("수강신청 취소에 실패하였습니다.");
+				}
+			} else {
+				System.out.println("이미 접수되었거나 수강중이라 취소가 불가능합니다.");
+			}
+		} else {
+			System.out.println("수강신청 정보가 없습니다.");
 		}
 	}
 	

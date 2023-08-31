@@ -36,7 +36,7 @@
 			<if test="newStaffEmail != null">staff_email = #{newStaffEmail},</if>
 			<if test="newStaffPassword != null">staff_password = #{newStaffPassword},</if>
 			<if test="newStaffName != null">staff_name = #{newStaffName},</if>
-			<if test="newStaffTel != 0">staff_tel = #{newStaffTel},</if>
+			<if test="newStaffTel != null">staff_tel = #{newStaffTel},</if>
 		</set>
 		WHERE staff_name = #{targetName}
 	</update>

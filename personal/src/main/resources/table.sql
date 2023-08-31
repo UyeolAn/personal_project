@@ -38,7 +38,7 @@ CREATE TABLE lectures
 (
   lecture_id NUMBER NOT NULL 
 , lecture_name VARCHAR2(30) NOT NULL
-, lecture_discription VARCHAR2(100)
+, lecture_description VARCHAR2(100)
 , lecture_start_date DATE
 , lecture_end_date DATE
 , num_students NUMBER DEFAULT 0 NOT NULL
@@ -51,7 +51,7 @@ CREATE TABLE lectures
 
 COMMENT ON COLUMN lectures.lecture_id IS '강의 식별번호';
 COMMENT ON COLUMN lectures.lecture_name IS '강의 이름';
-COMMENT ON COLUMN lectures.lecture_discription IS '강의 설명';
+COMMENT ON COLUMN lectures.lecture_description IS '강의 설명';
 COMMENT ON COLUMN lectures.lecture_start_date IS '강의 시작일';
 COMMENT ON COLUMN lectures.lecture_end_date IS '강의 종료일';
 COMMENT ON COLUMN lectures.num_students IS '인원수';

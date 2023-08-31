@@ -35,10 +35,22 @@ public class LectureServiceImpl implements LectureService {
 	public int updateLectureByName(LectureUpdateVO vo) {
 		return map.updateLectureByName(vo);
 	}
+	
+	@Override
+	public int plusNumStudents(String name) {
+		return map.plusNumStudents(name);
+	}
+	
+	@Override
+	public int minusNumStudents(String name) {
+		return map.minusNumStudents(name);
+	}
 
 	@Override
 	public int deleteLectureByName(String name) {
 		return map.deleteLectureByName(name);
 	}
+
+	
 
 }
